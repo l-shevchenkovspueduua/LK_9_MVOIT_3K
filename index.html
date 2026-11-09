@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЛК 9 та ЛЗ 13 (СР 20)</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-hover: #1e3a8a;
+            --secondary: #059669;
+            --accent: #d97706;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --border: #cbd5e1;
+            --disabled-bg: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 500;
+            color: #e0e7ff;
+            line-height: 1.4;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* Покрокова навігаційна панель */
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            background-color: #cbd5e1;
+            padding: 8px 8px 0 8px;
+            border: 1px solid var(--border);
+            border-top: none;
+        }
+
+        .tab-btn {
+            background-color: #64748b;
+            border: 1px solid #475569;
+            border-bottom: none;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1 1 auto;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover:not(:disabled) {
+            background-color: #475569;
+        }
+
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: #0f172a;
+            border-bottom: 3px solid var(--accent);
+            font-weight: 700;
+        }
+
+        .tab-btn:disabled {
+            background-color: var(--disabled-bg);
+            color: #cbd5e1;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Вміст кроку */
+        .step-content {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0 0 12px 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        h2.section-title {
+            font-size: 19px;
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 16px;
+            color: #334155;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .btn-fill-sample {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .btn-fill-sample:hover {
+            background-color: #b45309;
+        }
+
+        .theory-box {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 15px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #1e3a8a;
+            margin-bottom: 22px;
+        }
+
+        .alert-box {
+            background-color: #fff7ed;
+            border-left: 4px solid var(--accent);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            color: #9a3412;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        input[type="text"], input[type="url"], textarea, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: #ffffff;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        /* Тестові картки */
+        .q-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .q-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .q-options label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .btn-check-test {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-check-test:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Таблиця техкартки */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        td textarea {
+            min-height: 80px;
+            margin-bottom: 0;
+        }
+
+        .btn-print {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);
+            transition: background 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: #047857;
+        }
+
+        @media print {
+            .tabs-nav, .btn-fill-sample, .btn-check-test, .btn-print, .alert-box {
+                display: none !important;
+            }
+            .step-content {
+                display: block !important;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                page-break-after: always;
+                margin-bottom: 20px;
+                padding: 15px;
+            }
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            textarea {
+                border: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Заголовок -->
+    <header>
+        <h1>ЛК 9. Методичні підходи до навчання основних предметних змістових ліній інформатичної освітньої галузі в 7–9 класах</h1>
+        <h2>ЛЗ 13. Проєктування та проведення фрагментів уроків інформатики для 7–9 класів із застосуванням проблемного та проєктного навчання (СР 20)</h2>
+    </header>
+
+    <!-- Покрокова навігаційна панель -->
+    <div class="tabs-nav">
+        <button id="btn-tab-1" class="tab-btn active" onclick="switchStep(1)">Крок 1 • Паспорт & Тести</button>
+        <button id="btn-tab-2" class="tab-btn" disabled onclick="switchStep(2)">Крок 2 • Проблемний фрагмент</button>
+        <button id="btn-tab-3" class="tab-btn" disabled onclick="switchStep(3)">Крок 3 • Проєктне завдання</button>
+        <button id="btn-tab-4" class="tab-btn" disabled onclick="switchStep(4)">Крок 4 • Технологічна карта</button>
+        <button id="btn-tab-5" class="tab-btn" disabled onclick="switchStep(5)">Крок 5 • Презентація & Сайт</button>
+        <button id="btn-tab-6" class="tab-btn" disabled onclick="switchStep(6)">Фінал • PDF для Moodle</button>
+    </div>
+
+    <!-- КРОК 1. ПАСПОРТ ТА ТЕСТИ -->
+    <div id="step-1" class="step-content active">
+        <h2 class="section-title">Крок 1. Паспорт здобувача вищої освіти та контрольне тестування (ЛК 9)</h2>
+        <button class="btn-fill-sample" onclick="fillStep1Sample()">Заповнити Крок 1 зразком</button>
+
+        <!-- Блок ідентифікації -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px; border-radius: 8px; margin-bottom: 25px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px;">
+                <div>
+                    <label for="student-name">Прізвище, Ім'я здобувача вищої освіти:</label>
+                    <input type="text" id="student-name" placeholder="Наприклад: Шевченко Петро">
+                </div>
+                <div>
+                    <label for="student-group">Курс, група:</label>
+                    <input type="text" id="student-group" placeholder="Наприклад: 3-АПО (або 4 курс, 41-ІБ)">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label for="model-program-author">Обрана Модельна навчальна програма (Авторський колектив):</label>
+                    <input type="text" id="model-program-author" placeholder="Наприклад: під ред. Ривкінда Й.Я. / Завадського І.О.">
+                </div>
+                <div>
+                    <label for="teacher-site-url">Посилання на персональний сайт вчителя:</label>
+                    <input type="url" id="teacher-site-url" placeholder="https://sites.google.com/view/your-teacher-site">
+                </div>
+            </div>
+        </div>
+
+        <div class="theory-box">
+            <b>Аналітично-діагностичне завдання з ЛК 9:</b> Дайте відповіді на 10 запитань щодо методичних підходів навчання змістових ліній інформатики у 7–9 класах.
+        </div>
+
+        <div class="alert-box" id="lock-warning-box">
+            🔒 <b>Увага:</b> Наступні кроки (Крок 2 – Крок 6) заблоковані. Для розблокування виконання лабораторної роботи обов'язково дайте відповіді на тести та натисніть кнопку <b>«Зафіксувати результати тестування»</b>!
+        </div>
+
+        <form id="test-form">
+            <!-- 1. Радіокнопка -->
+            <div class="q-card">
+                <div class="q-title">1. [Поляризований вибір] Яка мета методичного переходу від візуального Scratch до текстового Python у 7–8 класах?</div>
+                <div class="q-options">
+                    <label><input type="radio" name="q1" value="a"> а) Прискорення швидкості набору текстових символів</label>
+                    <label><input type="radio" name="q1" value="b"> б) Перехід від візуального кодування до точного синтаксичного та алгоритмічного мислення</label>
+                    <label><input type="radio" name="q1" value="c"> в) Відмова від вивчення алгоритмічних структур</label>
+                </div>
+            </div>
+
+            <!-- 2. Радіокнопка -->
+            <div class="q-card">
+                <div class="q-title">2. [Нормативний стандарт] У якому класі згідно з Концептуальними засадами вивчаються реляційні СУБД та бази даних?</div>
+                <div class="q-options">
+                    <label><input type="radio" name="q2" value="a"> а) 7 клас</label>
+                    <label><input type="radio" name="q2" value="b"> б) 8 клас</label>
+                    <label><input type="radio" name="q2" value="c"> в) 9 клас</label>
+                </div>
+            </div>
+
+            <!-- 3. Множинний вибір -->
+            <div class="q-card">
+                <div class="q-title">3. [Множинний вибір] Оберіть УСІ складові, що належать до змістової лінії «Інформаційні системи та цифрові технології»:</div>
+                <div class="q-options">
+                    <label><input type="checkbox" name="q3" value="a"> а) Мережева архітектура та хмарні сервіси</label>
+                    <label><input type="checkbox" name="q3" value="b"> б) Правила кібергігієни та захисту персональних даних</label>
+                    <label><input type="checkbox" name="q3" value="c"> в) Фізичне складання материнських плат</label>
+                    <label><input type="checkbox" name="q3" value="d"> г) Цифрове громадянство та етика взаємодії</label>
+                </div>
+            </div>
+
+            <!-- 4. Випадаючі списки послідовності -->
+            <div class="q-card">
+                <div class="q-title">4. [Послідовність] Установіть правильну послідовність етапів виконання практичного завдання за ПК:</div>
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label>1-й етап: <select name="q4_1"><option value="">-- Оберіть --</option><option value="correct">Аналіз проблеми та формулювання гіпотези</option><option value="w1">Написання коду</option></select></label>
+                    <label>2-й етап: <select name="q4_2"><option value="">-- Оберіть --</option><option value="correct">Розробка алгоритму та вибір цифрового інструмента</option><option value="w1">Запуск програми</option></select></label>
+                    <label>3-й етап: <select name="q4_3"><option value="">-- Оберіть --</option><option value="correct">Виконання проєкту та рефлексійний аналіз (Debugging)</option><option value="w1">Оцінювання</option></select></label>
+                </div>
+            </div>
+
+            <!-- 5. Санрегламент -->
+            <div class="q-card">
+                <div class="q-title">5. [Санітарний регламент] Граничний час безперервної роботи за ПК для учнів 8–9 класів становить:</div>
+                <div class="q-options">
+                    <label><input type="radio" name="q5" value="a"> а) 15 хвилин</label>
+                    <label><input type="radio" name="q5" value="b"> б) 20–25 хвилин</label>
+                    <label><input type="radio" name="q5" value="c"> в) 40 хвилин</label>
+                </div>
+            </div>
+
+            <!-- 6. Наказ 1093 -->
+            <div class="q-card">
+                <div class="q-title">6. [Наказ МОН № 1093] Оцінювання логіки коду та якості створеного цифрового продукту здійснюється за:</div>
+                <div class="q-options">
+                    <label><input type="radio" name="q6" value="a"> а) ГР 1 (Пошук та аналіз інформації)</label>
+                    <label><input type="radio" name="q6" value="b"> б) ГР 2 (Створення цифрового продукту)</label>
+                    <label><input type="radio" name="q6" value="c"> в) ГР 4 (Дотримання правил БЖД та етики)</label>
+                </div>
+            </div>
+
+            <!-- 7. Множинний вибір -->
+            <div class="q-card">
+                <div class="q-title">7. [Дидактичний прийом] Які прийоми ефективні для подолання синтаксичних помилок у програмуванні?</div>
+                <div class="q-options">
+                    <label><input type="checkbox" name="q7" value="a"> а) Метод Парсона (збирання коду з готових рядків)</label>
+                    <label><input type="checkbox" name="q7" value="b"> б) Заповнення пропусків у готовому шаблоні (Fill-in-the-blank)</label>
+                    <label><input type="checkbox" name="q7" value="c"> в) Заучування синтаксису напам'ять</label>
+                </div>
+            </div>
+
+            <!-- 8. Проблемне запитання -->
+            <div class="q-card">
+                <div class="q-title">8. [Проблемне навчання] Чим проблемне запитання відрізняється від репродуктивного?</div>
+                <div class="q-options">
+                    <label><input type="radio" name="q8" value="a"> а) Воно містить більше ніж 15 слів у формулюванні</label>
+                    <label><input type="radio" name="q8" value="b"> б) Воно містить пізнавальну суперечність і не має прямої готової відповіді в параграфі</label>
+                    <label><input type="radio" name="q8" value="c"> в) Воно ставиться тільки на підсумковій контрольній</label>
+                </div>
+            </div>
+
+            <!-- 9. Вибір методу зі списку -->
+            <div class="q-card">
+                <div class="q-title">9. [Вибір методу] Який методичний прийом передбачає демонстраційне написання коду вчителем у реальному часі перед класом з поясненням логіки
